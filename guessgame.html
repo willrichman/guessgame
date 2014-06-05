@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <!--<link type="text/css" rel="stylesheet" href="stylesheet.css"/>-->
+    <title>Guess the number!</title>
+    <style>
+      body {
+        background-color: #0A212A;
+        color: #A3BCC5;
+        font-family: Verdana, sans-serif;
+        text-align: center;
+      }
+      div {
+        border-radius: 5px;
+        background-color: #253C45;
+        width: 90%;
+        height: 200px;
+        margin: 0 auto;
+      }
+      #header {
+        width: 100%;
+        height: 60px;
+      }
+      #title {
+        font-size: 35px;
+        vertical-align: middle;
+        line-height: 60px;
+      }
+      #gametext1 {
+        padding-top: 1em;
+      }
+      #playerGuessText {
+        padding-top: 1em;
+      }
+      #answerbox {
+        width: 30%;
+      }
+    </style>
+  </head>
+
+
+  <body>
+    <div id="header">
+      <p id="title">Guessing game</p>
+    </div>
+    <div id="gameboard">
+      <p id="gametext1">Guess the number I'm thinking of!</p>
+      <input type="text" id="answerbox" placeholder="Type your guess and press enter!" onkeydown="search(this)"/>
+      <p id="playerGuessText"></p>
+      <p id="guessCountText"></p>
+    </div>
+    </div>
+
+
+    <script type="text/javascript">
+      var guess, answer, guessesLeft;
+
+      var getRandom = function(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+      }
+
+      answer = getRandom(1,100);
+      console.log(answer);
+      guessesLeft = 7;
+
+
+      function search(ele) {
+        if(event.keyCode == 13) {
+          guess = ele.value;
+          document.getElementById("playerGuessText").innerHTML = "Your guess was " + guess;
+
+          if (guess > answer) {
+            document.getElementById("gametext1").innerHTML = "Try again! You're too high!";
+            guessesLeft -= 1;
+            document.getElementById("guessCountText").innerHTML = "You have " + guessesLeft + " guesses left."
+          }
+
+          else if (guess < answer) {
+            document.getElementById("gametext1").innerHTML = "Try again! You're too low!"
+            guessesLeft -= 1;
+
+            if (guessesLeft != 1) {
+              document.getElementById("guessCountText").innerHTML = "You have " + guessesLeft + " guesses left."
+            }
+            else {
+              document.getElementById("guessCountText").innerHTML = "You have " + guessesLeft + " guess left."              
+            }
+          }
+
+          else {
+            console.log("Dagnabit, they got me!");
+            document.getElementById("gametext1").innerHTML = "You win! The number was " + answer;
+            guessed = true;
+          }
+
+          if (guessesLeft === 0) {
+            document.getElementById("gametext1").innerHTML = "You lose! The number was " + answer;
+          }
+        }
+      }
+
+    </script>
+  </body>
+  
+</html>
+
+<!--
+
+1)  My original idea for this was to do a "pick-up sticks" style "pile" of a random number of lines on the page, at random angles, and have the user guess how many there were.  I ran out of time to do this, but I am curious how easy it is to position visual elements like that on an HTML page.  The codeacademy HTML course presented ways to make square elements on the page, but I would like to create some more dynamic elements, and would like to know the best way to go about this.
+
+2)I observed that inline JS like this makes the HTML file cumbersome and obtuse.  I am looking forward to getting into running pages with separate JS and CSS files.
+
+3) For reference, I used http://www.w3schools.com/ and their CSS and HTML reference pages.  I also looked for solutions to some of my problems via Stack Overflow.
+
+-->
