@@ -9,13 +9,14 @@
         background-color: #0A212A;
         color: #A3BCC5;
         font-family: Verdana, sans-serif;
+        font-size: 18px;
         text-align: center;
       }
       div {
         border-radius: 5px;
         background-color: #253C45;
         width: 90%;
-        height: 200px;
+        height: 250px;
         margin: 0 auto;
       }
       #header {
@@ -30,12 +31,23 @@
       #gametext1 {
         padding-top: 1em;
       }
-      #playerGuessText {
+/*      #playerGuessText {
         padding-top: 1em;
-      }
+      }*/
       #answerbox {
         width: 30%;
       }
+
+      input {
+        font-size: 18;
+        font-family: Verdana, sans-serif;
+      }
+
+      #reset {
+        position: relative;
+        bottom: 0;
+      }
+
     </style>
   </head>
 
@@ -48,9 +60,10 @@
 
     <div id="gameboard">
       <p id="gametext1">Guess the number I'm thinking of!</p>
-      <input type="text" id="answerbox" placeholder="Type your guess and press enter!" onkeydown="search(this)"/>
+      <input type="text" id="answerbox" placeholder="Type your guess and press enter!" onkeydown="trygame(this)"/>
       <p id="playerGuessText"></p>
       <p id="guessCountText"></p>
+      <input type="button" id="reset" onmouseup="resetgame()"/ value="Reset the game" disabled="true">
     </div>
 
 
@@ -75,45 +88,61 @@
         }
       }
 
-      //while playing {
-        function search(ele) {
+      var game = function(ele) {
 
-          if (event.keyCode == 13) {
-            guess = ele.value;
-            document.getElementById("playerGuessText").innerHTML = "Your guess was " + guess;
+        if (event.keyCode == 13) {
+          guess = ele.value;
+          document.getElementById("playerGuessText").innerHTML = "Your guess was " + guess;
 
-            if (guess > answer) {
-              document.getElementById("gametext1").innerHTML = "Try again! You're too high!";
-              guessesLeft -= 1;
-              printGuesses();
-            }
-
-            else if (guess < answer) {
-              document.getElementById("gametext1").innerHTML = "Try again! You're too low!"
-              guessesLeft -= 1;
-              printGuesses();
-            }
-
-            else {
-              console.log("Dagnabit, they got me!");
-              document.getElementById("gametext1").innerHTML = "You win! The number was " + answer;
-              playing = false;
-            }
-
-            if (guessesLeft === 0) {
-              document.getElementById("gametext1").innerHTML = "You lose! The number was " + answer;
-              playing = false;
-            }
+          if (guess > answer) {
+            document.getElementById("gametext1").innerHTML = "Try again! You're too high!";
+            guessesLeft -= 1;
+            printGuesses();
           }
-        }        
-      //}
 
-      /*while !playing {
-        function search(ele) {
-            document.getElementById("playerGuessText").innerHTML = "Game over!  Press enter to start a new game!";
-          if (event.keyCode == 13) {
+          else if (guess < answer) {
+            document.getElementById("gametext1").innerHTML = "Try again! You're too low!"
+            guessesLeft -= 1;
+            printGuesses();
           }
-      } */
+
+          else {
+            console.log("Dagnabit, they got me!");
+            document.getElementById("gametext1").innerHTML = "You win! The number was " + answer;
+            playing = false;
+          }
+
+          if (guessesLeft === 0) {
+            document.getElementById("gametext1").innerHTML = "You lose! The number was " + answer;
+            playing = false;
+          }
+        }
+      }        
+
+      var resetgame = function() {
+        document.getElementById("reset").disabled = true;
+        playing = true;
+        guessesLeft = 7;
+        answer = getRandom(1,100);
+        document.getElementById("gametext1").innerHTML = "Guess the number I'm thinking of!";
+        document.getElementById("answerbox").value = placeholder;
+        document.getElementById("playerGuessText") = ""
+        printGuesses();
+      }
+
+      var trygame = function(ele) {
+        if (playing) {
+          game(ele);
+        }
+        if (!playing) {
+          gameover();
+        }
+      }
+
+      var gameover = function() {
+        document.getElementById("playerGuessText").innerHTML = "Game over!  Press reset to start a new game!";
+        document.getElementById("reset").disabled = false;        
+      }
 
     </script>
   </body>
