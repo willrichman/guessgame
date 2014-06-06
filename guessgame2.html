@@ -40,7 +40,7 @@
       #gametext1 {
         padding-top: 1em;
       }
-
+''
       #answerbox {
         width: 30%;
       }
@@ -62,7 +62,7 @@
 
     <div id="gameboard">
       <p id="gametext1">Guess the number I'm thinking of!</p>
-      <input type="text" id="answerbox" placeholder="Type your guess and press enter!" onkeydown="trygame(this)"/>
+      <input type="text" id="answerbox" placeholder="Type your guess and press enter!" onkeydown="tryGame(this)" onfocus="startTimer"/>
       <p id="playerGuessText">&nbsp;</p>
       <p id="guessCountText">You have 7 guesses left.</p>
       <input type="button" id="reset" onmouseup="resetgame()"/ value="Reset the game" disabled="true">
@@ -134,20 +134,21 @@
         printGuesses();
       }
 
-      var trygame = function(ele) {
+      var tryGame = function(ele) {
         if (playing) {
           game(ele);
         }
         if (!playing) {
-          gameover();
+          gameOver();
         }
       }
 
-      var gameover = function() {
+      var gameOver = function() {
         document.getElementById("playerGuessText").innerHTML = "Game over!  Press reset to start a new game!";
         document.getElementById("reset").disabled = false;        
       }
 
+      var date
     </script>
   </body>
 
